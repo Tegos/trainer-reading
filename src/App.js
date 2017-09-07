@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import logo from './logo.svg';
 //import './App.css';
-import styled from 'styled-components';
+//import styled from 'styled-components';
 
 import {RaisedButton, Dialog, FlatButton, RadioButton, RadioButtonGroup} from 'material-ui';
 import {MuiThemeProvider} from 'material-ui/styles';
@@ -11,6 +11,10 @@ import Header from './components/Header';
 import Slider from 'material-ui/Slider';
 import AppBar from 'material-ui/AppBar';
 import {Range} from 'rc-slider';
+
+import 'rc-slider/assets/index.css';
+import 'rc-tooltip/assets/bootstrap.css';
+import ReaderZone from './components/ReaderZone';
 
 injectTapEventPlugin();
 
@@ -41,56 +45,39 @@ class App extends Component {
 			</div>
 		);
 
+		const wrapperStyle = {width: 400, margin: 50};
+
 		return (
 			<MuiThemeProvider muiTheme={this.muiTheme}>
 				<div>
 					<AppBar title="Trainer of speed reading with marks"
 					        showMenuIconButton={false}/>
 					{header}
-					<Range min={1} value={[2, 30]}/>
-					<table style={{width: '100%'}}>
-						<tr>
-							<td>
-								<div>
-									{sliderForArea}
-								</div>
-							</td>
-							<td></td>
-							<td>
-								<div>
-									{sliderForArea}
-								</div>
-							</td>
-						</tr>
-					</table>
+					<div>
+						<Range step={1} min={0} defaultValue={[3, 10]}/>
+					</div>
+
+					<ReaderZone/>
 
 					<div className="row">
 						<div className="col-md-2">
-							Type:
 						</div>
 						<div className="col-md-10">
-							<RadioButtonGroup
-								className="row"
-								name="type">
-								<RadioButton
-									className="col-md-4"
-									value="other"
-									label="Other"/>
-								<RadioButton
-									className="col-md-4"
-									value="custom"
-									label="Custom"/>
-							</RadioButtonGroup>
+
 						</div>
 					</div>
-					<RaisedButton label="Super Secret Password" secondary={true} onTouchTap={this.handleTouchTap}/>
+					{/*<RaisedButton label="Super Secret Password" secondary={true} onTouchTap={this.handleTouchTap}/>*/}
 
-					<Dialog open={this.state.open} title="Super Secret Password"
-					        actions={[standardActions, standardActions0]}
-					        onRequestClose={this.handleRequestClose}>1-2-3-4-5</Dialog>
+					{/*<Dialog open={this.state.open} title="Super Secret Password"*/}
+					{/*actions={[standardActions, standardActions0]}*/}
+					{/*onRequestClose={this.handleRequestClose}>1-2-3-4-5</Dialog>*/}
 				</div>
 			</MuiThemeProvider>
 		);
+	}
+
+	componentDidMount() {
+		alert('909');
 	}
 
 	handleTouchTap = () => {
