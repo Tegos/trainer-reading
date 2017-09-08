@@ -10,7 +10,7 @@ import Header from './components/Header';
 
 import Slider from 'material-ui/Slider';
 import AppBar from 'material-ui/AppBar';
-import {Range} from 'rc-slider';
+
 
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
@@ -53,19 +53,11 @@ class App extends Component {
 					<AppBar title="Trainer of speed reading with marks"
 					        showMenuIconButton={false}/>
 					{header}
-					<div>
-						<Range step={1} min={0} defaultValue={[3, 10]}/>
-					</div>
+
 
 					<ReaderZone/>
 
-					<div className="row">
-						<div className="col-md-2">
-						</div>
-						<div className="col-md-10">
 
-						</div>
-					</div>
 					{/*<RaisedButton label="Super Secret Password" secondary={true} onTouchTap={this.handleTouchTap}/>*/}
 
 					{/*<Dialog open={this.state.open} title="Super Secret Password"*/}
@@ -77,7 +69,7 @@ class App extends Component {
 	}
 
 	componentDidMount() {
-		alert('909');
+		//alert('909');
 	}
 
 	handleTouchTap = () => {
