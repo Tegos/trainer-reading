@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import logo from './logo.svg';
-//import './App.css';
+import './App.css';
 //import styled from 'styled-components';
 
 import {RaisedButton, Dialog, FlatButton, RadioButton, RadioButtonGroup} from 'material-ui';
 import {MuiThemeProvider} from 'material-ui/styles';
-import Header from './components/Header';
+
 
 import Slider from 'material-ui/Slider';
 import AppBar from 'material-ui/AppBar';
@@ -36,7 +36,7 @@ class App extends Component {
 			<FlatButton label="Ok" primary={true} onTouchTap={this.handleRequestClose}/>
 		);
 
-		const header = <Header/>;
+
 		//console.log(header);
 
 		const sliderForArea = (
@@ -52,7 +52,7 @@ class App extends Component {
 				<div>
 					<AppBar title="Trainer of speed reading with marks"
 					        showMenuIconButton={false}/>
-					{header}
+
 
 
 					<ReaderZone/>

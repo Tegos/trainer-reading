@@ -2,15 +2,18 @@ import React, {Component} from 'react';
 
 import {Range} from 'rc-slider';
 import $ from 'jquery';
+import './ReaderZone.css';
 
-var colorable = require('colorable');
+import Header from './Header';
 
-var colors = {
+let colorable = require('colorable');
+
+let colors = {
 	red: 'red',
 	green: 'green',
 	blue: 'blue'
 };
-var result = colorable(colors, {compact: true, threshold: 0});
+let result = colorable(colors, {compact: true, threshold: 0});
 
 
 class ReaderZone extends Component {
@@ -50,13 +53,13 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 
 	}
 
-	ZoneWidthRange;
-
 
 	render() {
+		const header = <Header/>;
 
 		return (
 			<div>
+				{header}
 				<div style={{overflow: 'hidden'}}>
 					<Range allowCross={false} step={1} min={1} max={this.state.widthWindow}
 					       value={this.state.rangeValue}
@@ -102,9 +105,6 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 
 
 		console.log(this.state.rangeValue);
-
-
-		console.log(this.refs.ZoneWidthRange);
 	}
 
 	componentWillMount() {
