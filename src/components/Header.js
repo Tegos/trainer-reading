@@ -42,14 +42,31 @@ let result = colorable(colors, {compact: true, threshold: 0});
 
 
 class Header extends Component {
-	constructor() {
+	constructor(props) {
 		super();
 		this.state = {
 			activeMenu: 2
 		};
+
+		let handleToUpdate = props.handleToUpdate;
+
+		// event for font size input
+		this.onChangeFontSize = (event, value) => {
+			const e = event;
+			const min = +e.target.min;
+			const max = +e.target.max;
+			value = +value;
+			if (min <= value && value <= max) {
+				handleToUpdate({
+					fontSize: value
+				})
+			}
+		};
 	}
 
 	render() {
+
+		const {onChangeFontSize} = this;
 
 		return (
 
@@ -91,11 +108,12 @@ class Header extends Component {
 						id="input_font_size"
 						floatingLabelFixed={false}
 						value={this.state.activeMenu}
-						defaultValue={14}
+						defaultValue={this.props.fontSize}
 						min={10}
 						max={30}
 						required={true}
 						strategy="warn"
+						onChange={onChangeFontSize}
 					/>
 					<ToolbarSeparator/>
 
@@ -121,6 +139,8 @@ class Header extends Component {
 
 		);
 	}
+
+
 }
 
 export default Header;

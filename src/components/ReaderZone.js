@@ -42,7 +42,8 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 			marginRight: 100,
 			widthWindow: 500,
 			heightWindow: 500,
-			rangeValue: [10, 10]
+			rangeValue: [10, 10],
+			fontSize: 14
 		};
 
 
@@ -55,7 +56,7 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 
 
 	render() {
-		const header = <Header/>;
+		const header = <Header fontSize={this.state.fontSize} handleToUpdate={this.handleToUpdate.bind(this)}/>;
 
 		return (
 			<div>
@@ -68,7 +69,8 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 				</div>
 				<div style={{
 					marginLeft: this.state.marginLeft,
-					marginRight: this.state.widthWindow - this.state.marginRight
+					marginRight: this.state.widthWindow - this.state.marginRight,
+					fontSize: this.state.fontSize
 				}} id={'reader_zone'}>
 					<div>
 						{this.state.text}
@@ -133,9 +135,12 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 			marginRight: +value[1],
 			rangeValue: value
 		});
+	};
+
+	handleToUpdate(update) {
+		console.log(update);
+		this.setState(update);
 	}
 }
-
-ReaderZone.defaultProps = {text: 'Tegos 909'};
 
 export default ReaderZone;
