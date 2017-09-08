@@ -19,8 +19,12 @@ import HardwareVideogameAsset from 'material-ui/svg-icons/hardware/videogame-ass
 import {red500, yellow500, blue500} from 'material-ui/styles/colors';
 
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 import PlayCircle from 'react-mdi/icons/play-circle';
 import PauseCircle from 'react-mdi/icons/pause-circle';
+import NumberInput from 'material-ui-number-input';
+
 
 const iconStyles = {
 	marginRight: 24,
@@ -75,6 +79,23 @@ class Header extends Component {
 						icon={
 							<PauseCircle className="button_icons"/>
 						}
+					/>
+					<ToolbarSeparator/>
+
+				</ToolbarGroup>
+
+				<ToolbarGroup>
+					<NumberInput
+						floatingLabelText="Enter Font Size"
+						hintText="Font Size"
+						id="input_font_size"
+						floatingLabelFixed={false}
+						value={this.state.activeMenu}
+						defaultValue={14}
+						min={10}
+						max={30}
+						required={true}
+						strategy="warn"
 					/>
 					<ToolbarSeparator/>
 
