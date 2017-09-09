@@ -43,7 +43,8 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 			widthWindow: 500,
 			heightWindow: 500,
 			rangeValue: [10, 10],
-			fontSize: 14
+			fontSize: 14,
+			textAlign: 'left'
 		};
 
 
@@ -70,7 +71,8 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 				<div style={{
 					marginLeft: this.state.marginLeft,
 					marginRight: this.state.widthWindow - this.state.marginRight,
-					fontSize: this.state.fontSize
+					fontSize: this.state.fontSize,
+					textAlign: this.state.textAlign
 				}} id={'reader_zone'}>
 					<div>
 						{this.state.text}

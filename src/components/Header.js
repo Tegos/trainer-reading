@@ -1,34 +1,21 @@
 import React, {Component} from 'react';
 
-import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import $ from 'jquery';
+
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 
-import {fullWhite} from 'material-ui/styles/colors';
-import ActionAndroid from 'material-ui/svg-icons/action/android';
-
-import ActionHome from 'material-ui/svg-icons/action/home';
-import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
-import FileCloudDownload from 'material-ui/svg-icons/file/cloud-download';
-import HardwareVideogameAsset from 'material-ui/svg-icons/hardware/videogame-asset';
-import {red500, yellow500, blue500} from 'material-ui/styles/colors';
-
-
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import PlayCircle from 'react-mdi/icons/play-circle';
 import PauseCircle from 'react-mdi/icons/pause-circle';
+import FormatAlignCenter from 'react-mdi/icons/format-align-center';
+import FormatAlignLeft from 'react-mdi/icons/format-align-left';
+import FormatAlignRight from 'react-mdi/icons/format-align-right';
+import FormatAlignJustify from 'react-mdi/icons/format-align-justify';
+
 import NumberInput from 'material-ui-number-input';
-
-
-const iconStyles = {
-	marginRight: 24,
-};
 
 
 let colorable = require('colorable');
@@ -42,13 +29,15 @@ let result = colorable(colors, {compact: true, threshold: 0});
 
 
 class Header extends Component {
+	handleToUpdate;
+
 	constructor(props) {
 		super();
 		this.state = {
 			activeMenu: 2
 		};
 
-		let handleToUpdate = props.handleToUpdate;
+		this.handleToUpdate = props.handleToUpdate;
 
 		// event for font size input
 		this.onChangeFontSize = (event, value) => {
@@ -57,11 +46,13 @@ class Header extends Component {
 			const max = +e.target.max;
 			value = +value;
 			if (min <= value && value <= max) {
-				handleToUpdate({
+				this.handleToUpdate({
 					fontSize: value
-				})
+				});
 			}
 		};
+
+		this.handleOfButtonTextAlign = this.handleOfButtonTextAlign.bind(this);
 	}
 
 	render() {
@@ -107,8 +98,7 @@ class Header extends Component {
 						hintText="Font Size"
 						id="input_font_size"
 						floatingLabelFixed={false}
-						value={this.state.activeMenu}
-						defaultValue={this.props.fontSize}
+						defaultValue={+this.props.fontSize}
 						min={10}
 						max={30}
 						required={true}
@@ -120,24 +110,33 @@ class Header extends Component {
 				</ToolbarGroup>
 
 				<ToolbarGroup>
-					<ToolbarTitle text="Options"/>
-					<FontIcon className="muidocs-icon-custom-sort"/>
-					<ToolbarSeparator/>
-					<RaisedButton label="Create Broadcast" primary={true}/>
-					<IconMenu
-						iconButtonElement={
-							<IconButton touch={true}>
-								<NavigationExpandMoreIcon/>
-							</IconButton>
-						}
-					>
-						<MenuItem primaryText="Download"/>
-						<MenuItem primaryText="More Info"/>
-					</IconMenu>
+					<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+						<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="left"
+						              label={<FormatAlignLeft className="button_icons"/>}
+						              style={{display: 'inline-block', width: 'auto', marginRight: 3}}/>
+						<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="center"
+						              label={<FormatAlignCenter className="button_icons"/>}
+						              style={{display: 'inline-block', width: 'auto', marginRight: 3}}/>
+						<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="justify"
+						              label={<FormatAlignJustify className="button_icons"/>}
+						              style={{display: 'inline-block', width: 'auto', marginRight: 3}}/>
+						<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="right"
+						              label={<FormatAlignRight className="button_icons"/>}
+						              style={{display: 'inline-block', width: 'auto'}}/>
+					</div>
 				</ToolbarGroup>
 			</Toolbar>
 
 		);
+	}
+
+	handleOfButtonTextAlign(event) {
+		const button = $(event.target).closest('button');
+		const align = button.data('value');
+
+		this.handleToUpdate({
+			textAlign: align
+		});
 	}
 
 
