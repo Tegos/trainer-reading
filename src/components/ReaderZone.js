@@ -49,7 +49,9 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 			speed: 900,
 			intervalId: null,
 			status: 0, // 0 - stop, 1 - run
-			currentPositionText: 0
+			currentPositionText: 0,
+			contextOfText: null,
+			instanceMark: null
 		};
 
 
@@ -59,6 +61,11 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 
 
 	}
+
+	options = {
+		element: 'span',
+		className: 'mark animate'
+	};
 
 
 	render() {
@@ -74,14 +81,16 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 					       onChange={this.onSliderChange}
 					/>
 				</div>
-				<div style={{
-					marginLeft: this.state.marginLeft,
-					marginRight: this.state.widthWindow - this.state.marginRight,
-					fontSize: this.state.fontSize,
-					textAlign: this.state.textAlign
-				}} id={'reader_zone'}>
-					<div>
-						{this.state.text}
+				<div id={'reader_zone_wrap'}>
+					<div style={{
+						marginLeft: this.state.marginLeft,
+						marginRight: this.state.widthWindow - this.state.marginRight,
+						fontSize: this.state.fontSize,
+						textAlign: this.state.textAlign
+					}} id={'reader_zone'}>
+						<div>
+							{this.state.text}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -92,7 +101,12 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 	componentDidMount() {
 		window.addEventListener('resize', this.updateDimensions);
 
-		//this.runHighLightText();
+		let contextOfText = document.querySelector('#reader_zone div');
+		let instanceMark = new Mark(contextOfText);
+		this.setState({
+			contextOfText,
+			instanceMark
+		});
 	}
 
 	updateDimensions() {
@@ -130,8 +144,8 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 		}
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		console.log(prevState.status);
+	componentDidUpdate() {
+
 	}
 
 	onSliderChange = (value) => {
@@ -160,24 +174,23 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 	}
 
 	highLightText = () => {
-		let context = document.querySelector('#reader_zone div');
-		let instance = new Mark(context);
+
+
 		let lengthText = this.state.text.length;
 		let speed = this.state.speed; // per min
 		let lengthHighLight = parseInt(speed / 60, 10);
-
-		const options = {
-			element: 'span',
-			className: 'mark animate'
-		};
-
+		let instanceMark = this.state.instanceMark;
 
 		let i = this.state.currentPositionText;
 
-		instance.markRanges([{
+		if (i > lengthText) {
+			this.stopHighLightText();
+		}
+
+		instanceMark.markRanges([{
 			start: i,
 			length: lengthHighLight
-		}], options);
+		}], this.options);
 
 		this.setState({
 			currentPositionText: i + lengthHighLight
@@ -187,6 +200,7 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 	};
 
 	runHighLightText = () => {
+		this.highLightText();
 		const intervalId = setInterval(this.highLightText, 1000);
 		this.setState(
 			{
@@ -199,6 +213,9 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 		if (this.state.intervalId) {
 			clearInterval(this.state.intervalId);
 		}
+		this.setState({
+			status: 0
+		})
 	};
 }
 

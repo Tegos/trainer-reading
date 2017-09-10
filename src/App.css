@@ -1,32 +1,7 @@
-.App {
-	text-align: center;
-}
-
-.App-logo {
-	animation: App-logo-spin infinite 20s linear;
-	height: 80px;
-}
-
-.App-header {
-	background-color: #222;
-	height: 150px;
-	padding: 20px;
-	color: white;
-}
-
-.App-intro {
-	font-size: large;
-}
-
-@keyframes App-logo-spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
-}
-
-.muidocs-icon-custom-github:before {
-	content: "\e625";
+html, body {
+	height: 100vh;
+	width: 100vw;
+	/*background-color: #222233;*/
+	/*background-color: #292929;*/
+	background-color: #292929;
 }

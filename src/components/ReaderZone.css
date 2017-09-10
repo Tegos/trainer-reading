@@ -4,8 +4,9 @@
 
 .mark {
 	padding: 0;
-	background: linear-gradient(to right, #f0ad4e 50%, transparent 50%) right bottom;
+	background: linear-gradient(to right, #FFC107 50%, transparent 50%) right bottom;
 	background-size: 205% 100%;
+	color: black;
 }
 
 .mark.animate {
@@ -18,4 +19,8 @@
 	to {
 		background-position: left bottom;
 	}
+}
+
+#reader_zone_wrap {
+	color: #AACCFF;
 }
