@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {Range} from 'rc-slider';
 import $ from 'jquery';
 import './ReaderZone.css';
+import Mark from 'mark.js';
 
 import Header from './Header';
 
@@ -44,7 +45,8 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 			heightWindow: 500,
 			rangeValue: [10, 10],
 			fontSize: 14,
-			textAlign: 'left'
+			textAlign: 'left',
+			speed: 900
 		};
 
 
@@ -85,11 +87,48 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 
 	componentDidMount() {
 		window.addEventListener('resize', this.updateDimensions);
+
+		let context = document.querySelector('#reader_zone div');
+		let instance = new Mark(context);
+		let lengthText = this.state.text.length;
+		let speed = this.state.speed; // per min
+		let lengthHighLight = parseInt(speed / 60, 10);
+
+		const options = {
+			element: 'span',
+			className: 'mark',
+			each: (element) => {
+				console.log(element);
+				setTimeout(() => {
+					$(element).addClass('animate');
+				}, 1000)
+				//
+			}
+		};
+
+		console.log(instance);
+		let i = 0;
+		setInterval(() => {
+			instance.markRanges([{
+				start: i,
+				length: lengthHighLight
+			}], options);
+			i += lengthHighLight;
+		}, 1000);
+
+		// let options = {
+		// 	"each": function (element) {
+		// 		setTimeout(function () {
+		// 			$(element).addClass("animate");
+		// 		}, 250);
+		// 	}
+		// };
+
 	}
 
 	updateDimensions() {
-		const width = parseInt($(window).width());
-		const height = parseInt($(window).height());
+		const width = parseInt($(window).width(), 10);
+		const height = parseInt($(window).height(), 10);
 
 
 		this.setState({
@@ -119,6 +158,10 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 
 	componentWillUnmount() {
 		window.removeEventListener('resize', this.updateDimensions);
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		console.log(prevState);
 	}
 
 	db_click(e) {

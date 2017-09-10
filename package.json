@@ -6,6 +6,7 @@
     "babel-preset-es2015": "^6.24.1",
     "colorable": "^1.0.5",
     "jquery": "^3.2.1",
+    "mark.js": "github:julmot/mark.js",
     "material-ui": "^0.19.1",
     "material-ui-number-input": "^5.0.24",
     "rc-slider": "^8.3.1",

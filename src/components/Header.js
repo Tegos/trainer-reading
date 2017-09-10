@@ -3,9 +3,10 @@ import React, {Component} from 'react';
 import $ from 'jquery';
 
 import MenuItem from 'material-ui/MenuItem';
+import {Slider} from 'material-ui';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
 
 
 import PlayCircle from 'react-mdi/icons/play-circle';
@@ -61,71 +62,82 @@ class Header extends Component {
 
 		return (
 
-			<Toolbar>
-				<ToolbarGroup firstChild={true}>
-					<DropDownMenu value={this.state.activeMenu} onChange={this.handleChange}>
-						<MenuItem value={1} primaryText="All Broadcasts"/>
-						<MenuItem value={2} primaryText="All Voice"/>
-						<MenuItem value={3} primaryText="All Text"/>
-						<MenuItem value={4} primaryText="Complete Voice"/>
-						<MenuItem value={5} primaryText="Complete Text"/>
-						<MenuItem value={6} primaryText="Active Voice"/>
-						<MenuItem value={7} primaryText="Active Text"/>
-					</DropDownMenu>
-					<ToolbarSeparator/>
-				</ToolbarGroup>
+			<div>
+				<Toolbar>
+					<ToolbarGroup firstChild={true}>
+						<DropDownMenu value={this.state.activeMenu} onChange={this.handleChange}>
+							<MenuItem value={1} primaryText="All Broadcasts"/>
+							<MenuItem value={2} primaryText="All Voice"/>
+							<MenuItem value={3} primaryText="All Text"/>
+							<MenuItem value={4} primaryText="Complete Voice"/>
+							<MenuItem value={5} primaryText="Complete Text"/>
+							<MenuItem value={6} primaryText="Active Voice"/>
+							<MenuItem value={7} primaryText="Active Text"/>
+						</DropDownMenu>
+						<ToolbarSeparator/>
+					</ToolbarGroup>
 
-				<ToolbarGroup>
-					<RaisedButton
-						primary={true}
-						icon={
-							<PlayCircle className="button_icons"/>
-						}
-					/>
-					<RaisedButton
-						secondary={true}
-						icon={
-							<PauseCircle className="button_icons"/>
-						}
-					/>
-					<ToolbarSeparator/>
+					<ToolbarGroup>
+						<div style={{width: 200, marginTop: 6}}>
+							<Slider style={{height: 56}} defaultValue={1}/>
+						</div>
+						<RaisedButton
+							primary={true}
+							icon={
+								<PlayCircle className="button_icons"/>
+							}
+						/>
+						<RaisedButton
+							secondary={true}
+							icon={
+								<PauseCircle className="button_icons"/>
+							}
+						/>
+						<ToolbarSeparator/>
 
-				</ToolbarGroup>
+					</ToolbarGroup>
 
-				<ToolbarGroup>
-					<NumberInput
-						floatingLabelText="Enter Font Size"
-						hintText="Font Size"
-						id="input_font_size"
-						floatingLabelFixed={false}
-						defaultValue={+this.props.fontSize}
-						min={10}
-						max={30}
-						required={true}
-						strategy="warn"
-						onChange={onChangeFontSize}
-					/>
-					<ToolbarSeparator/>
+					<ToolbarGroup>
+						<NumberInput
+							floatingLabelText="Enter Font Size"
+							hintText="Font Size"
+							id="input_font_size"
+							floatingLabelFixed={false}
+							defaultValue={+this.props.fontSize}
+							min={10}
+							max={30}
+							required={true}
+							strategy="warn"
+							onChange={onChangeFontSize}
+						/>
+						<ToolbarSeparator/>
 
-				</ToolbarGroup>
+					</ToolbarGroup>
 
-				<ToolbarGroup>
-					<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
-						<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="left"
-						              label={<FormatAlignLeft className="button_icons"/>}
-						              style={{display: 'inline-block', width: 'auto', marginRight: 3}}/>
-						<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="center"
-						              label={<FormatAlignCenter className="button_icons"/>}
-						              style={{display: 'inline-block', width: 'auto', marginRight: 3}}/>
-						<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="justify"
-						              label={<FormatAlignJustify className="button_icons"/>}
-						              style={{display: 'inline-block', width: 'auto', marginRight: 3}}/>
-						<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="right"
-						              label={<FormatAlignRight className="button_icons"/>}
-						              style={{display: 'inline-block', width: 'auto'}}/>
-					</div>
-				</ToolbarGroup>
-			</Toolbar>
+					<ToolbarGroup>
+						<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+							<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="left"
+							              label={<FormatAlignLeft className="button_icons"/>}
+							              style={{display: 'inline-block', width: 'auto', marginRight: 3}}/>
+							<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="center"
+							              label={<FormatAlignCenter className="button_icons"/>}
+							              style={{display: 'inline-block', width: 'auto', marginRight: 3}}/>
+							<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="justify"
+							              label={<FormatAlignJustify className="button_icons"/>}
+							              style={{display: 'inline-block', width: 'auto', marginRight: 3}}/>
+							<RaisedButton onClick={this.handleOfButtonTextAlign} data-value="right"
+							              label={<FormatAlignRight className="button_icons"/>}
+							              style={{display: 'inline-block', width: 'auto'}}/>
+						</div>
+					</ToolbarGroup>
+				</Toolbar>
+				<Toolbar style={{marginTop: 1}}>
+					<ToolbarGroup>
+
+					</ToolbarGroup>
+				</Toolbar>
+			</div>
+
 
 		);
 	}

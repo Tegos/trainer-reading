@@ -1,3 +1,21 @@
 .button_icons {
 	margin-top: 6px;
 }
+
+.mark {
+	padding: 0;
+	background: linear-gradient(to right, #f0ad4e 50%, transparent 50%) right bottom;
+	background-size: 205% 100%;
+}
+
+.mark.animate {
+	animation: stripes 1.01s linear;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+}
+
+@keyframes stripes {
+	to {
+		background-position: left bottom;
+	}
+}
