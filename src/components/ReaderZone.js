@@ -46,20 +46,24 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 			rangeValue: [10, 10],
 			fontSize: 14,
 			textAlign: 'left',
-			speed: 900
+			speed: 900,
+			intervalId: null,
+			status: 0, // 0 - stop, 1 - run
+			currentPositionText: 0
 		};
 
 
 		// bind events
-		this.db_click = this.db_click.bind(this);
 		this.updateDimensions = this.updateDimensions.bind(this);
+		this.handleToRun = this.handleToRun.bind(this);
 
 
 	}
 
 
 	render() {
-		const header = <Header fontSize={this.state.fontSize} handleToUpdate={this.handleToUpdate.bind(this)}/>;
+		const header = <Header handleToRun={this.handleToRun} speed={this.state.speed} fontSize={this.state.fontSize}
+		                       handleToUpdate={this.handleToUpdate.bind(this)}/>;
 
 		return (
 			<div>
@@ -88,42 +92,7 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 	componentDidMount() {
 		window.addEventListener('resize', this.updateDimensions);
 
-		let context = document.querySelector('#reader_zone div');
-		let instance = new Mark(context);
-		let lengthText = this.state.text.length;
-		let speed = this.state.speed; // per min
-		let lengthHighLight = parseInt(speed / 60, 10);
-
-		const options = {
-			element: 'span',
-			className: 'mark',
-			each: (element) => {
-				console.log(element);
-				setTimeout(() => {
-					$(element).addClass('animate');
-				}, 1000)
-				//
-			}
-		};
-
-		console.log(instance);
-		let i = 0;
-		setInterval(() => {
-			instance.markRanges([{
-				start: i,
-				length: lengthHighLight
-			}], options);
-			i += lengthHighLight;
-		}, 1000);
-
-		// let options = {
-		// 	"each": function (element) {
-		// 		setTimeout(function () {
-		// 			$(element).addClass("animate");
-		// 		}, 250);
-		// 	}
-		// };
-
+		//this.runHighLightText();
 	}
 
 	updateDimensions() {
@@ -147,30 +116,22 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 		});
 
 
-		console.log(this.state.rangeValue);
 	}
 
 	componentWillMount() {
-
 		this.updateDimensions();
 	}
 
 
 	componentWillUnmount() {
 		window.removeEventListener('resize', this.updateDimensions);
+		if (this.state.intervalId) {
+			clearInterval(this.state.intervalId);
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		console.log(prevState);
-	}
-
-	db_click(e) {
-		let counter = this.state.clicked;
-		counter++;
-		this.setState({clicked: counter});
-		console.log(e);
-		console.log(result);
-
+		console.log(prevState.status);
 	}
 
 	onSliderChange = (value) => {
@@ -186,6 +147,59 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 		console.log(update);
 		this.setState(update);
 	}
+
+	handleToRun(status) {
+		if (status) {
+			this.runHighLightText();
+		} else {
+			this.stopHighLightText();
+		}
+		this.setState({
+			status
+		});
+	}
+
+	highLightText = () => {
+		let context = document.querySelector('#reader_zone div');
+		let instance = new Mark(context);
+		let lengthText = this.state.text.length;
+		let speed = this.state.speed; // per min
+		let lengthHighLight = parseInt(speed / 60, 10);
+
+		const options = {
+			element: 'span',
+			className: 'mark animate'
+		};
+
+
+		let i = this.state.currentPositionText;
+
+		instance.markRanges([{
+			start: i,
+			length: lengthHighLight
+		}], options);
+
+		this.setState({
+			currentPositionText: i + lengthHighLight
+		});
+
+
+	};
+
+	runHighLightText = () => {
+		const intervalId = setInterval(this.highLightText, 1000);
+		this.setState(
+			{
+				intervalId: intervalId
+			}
+		);
+	};
+
+	stopHighLightText = () => {
+		if (this.state.intervalId) {
+			clearInterval(this.state.intervalId);
+		}
+	};
 }
 
 export default ReaderZone;

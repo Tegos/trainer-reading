@@ -31,14 +31,17 @@ let result = colorable(colors, {compact: true, threshold: 0});
 
 class Header extends Component {
 	handleToUpdate;
+	handleToRun;
 
 	constructor(props) {
 		super();
 		this.state = {
-			activeMenu: 2
+			activeMenu: 2,
+			sliderSpeedValue: +props.speed
 		};
 
 		this.handleToUpdate = props.handleToUpdate;
+		this.handleToRun = props.handleToRun;
 
 		// event for font size input
 		this.onChangeFontSize = (event, value) => {
@@ -78,20 +81,29 @@ class Header extends Component {
 					</ToolbarGroup>
 
 					<ToolbarGroup>
-						<div style={{width: 200, marginTop: 6}}>
-							<Slider style={{height: 56}} defaultValue={1}/>
+						<div style={{marginRight: 5}}>
+							<span>Speed: &nbsp;</span>
+							<b style={{
+								width: 40,
+								display: 'inline-block'
+							}}><span>{this.state.sliderSpeedValue}</span></b>
 						</div>
-						<RaisedButton
-							primary={true}
-							icon={
-								<PlayCircle className="button_icons"/>
-							}
+						<div style={{width: 200, marginTop: 12, marginLeft: 10}}>
+							<Slider onChange={this.handleSliderSpeed} step={1} min={900} max={10000}
+							        style={{height: 56}}
+							        defaultValue={this.state.sliderSpeedValue}/>
+						</div>
+						<RaisedButton data-run="1" onClick={this.handleOfButtonRun}
+						              primary={true}
+						              icon={
+							              <PlayCircle className="button_icons"/>
+						              }
 						/>
-						<RaisedButton
-							secondary={true}
-							icon={
-								<PauseCircle className="button_icons"/>
-							}
+						<RaisedButton data-run="0" onClick={this.handleOfButtonRun}
+						              secondary={true}
+						              icon={
+							              <PauseCircle className="button_icons"/>
+						              }
 						/>
 						<ToolbarSeparator/>
 
@@ -131,11 +143,6 @@ class Header extends Component {
 						</div>
 					</ToolbarGroup>
 				</Toolbar>
-				<Toolbar style={{marginTop: 1}}>
-					<ToolbarGroup>
-
-					</ToolbarGroup>
-				</Toolbar>
 			</div>
 
 
@@ -150,6 +157,20 @@ class Header extends Component {
 			textAlign: align
 		});
 	}
+
+	handleSliderSpeed = (event, value) => {
+		this.setState({sliderSpeedValue: value});
+		this.handleToUpdate({
+			speed: value
+		});
+	};
+
+	handleOfButtonRun = (event) => {
+		const button = $(event.target).closest('button');
+		const status = +button.data('run');
+
+		this.handleToRun(status);
+	};
 
 
 }
