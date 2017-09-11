@@ -4,4 +4,9 @@ html, body {
 	/*background-color: #222233;*/
 	/*background-color: #292929;*/
 	background-color: #f0f0f0;
+	overflow-x: hidden;
+}
+
+h1 {
+	color: black !important;
 }

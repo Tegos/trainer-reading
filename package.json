@@ -8,6 +8,7 @@
     "mark.js": "github:julmot/mark.js",
     "material-ui": "^0.19.1",
     "material-ui-number-input": "^5.0.24",
+    "mousetrap": "^1.6.1",
     "rc-slider": "^8.3.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

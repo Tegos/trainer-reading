@@ -9,6 +9,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import Header from './Header';
 
+import Mousetrap from "mousetrap";
+
 
 class ReaderZone extends Component {
 	fileUploader;
@@ -109,10 +111,12 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 				</Dialog>
 			</div>
 
+
 		);
 	}
 
 	componentDidMount() {
+		const _t = this;
 		window.addEventListener('resize', this.updateDimensions);
 
 		let contextOfText = document.querySelector('#reader_zone div');
@@ -120,6 +124,13 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 		this.setState({
 			contextOfText,
 			instanceMark
+		});
+
+		document.addEventListener('paste', function (event) {
+
+			_t.processingPastText(event);
+			return false;
+
 		});
 
 		document.getElementById('fileUploader').addEventListener('change', this.processingFileUpload, false);
@@ -149,8 +160,21 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 	}
 
 	componentWillMount() {
+		const _t = this;
 		this.updateDimensions();
-	}
+
+
+		Mousetrap.bind(['command+o', 'ctrl+o'], function () {
+			_t.openFileUpload();
+			return false;
+		});
+
+		Mousetrap.bind('f5', function () {
+			_t.resetHighLightText();
+			return false;
+		});
+
+	};
 
 
 	componentWillUnmount() {
@@ -261,6 +285,7 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 	getTableMenuMethods(menu) {
 		let table = {
 			1: this.openFileUpload,
+			2: this.triggerProcessingPastText,
 			3: this.resetHighLightText
 		};
 		return table[menu];
@@ -268,6 +293,10 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 
 	openFileUpload = () => {
 		this.fileUploader.click();
+	};
+
+	triggerProcessingPastText = () => {
+
 	};
 
 	processingFileUpload = (event) => {
@@ -288,6 +317,27 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 		} else {
 			_t.setState({
 				messageDialogText: 'Failed to load file. Please select correct text file',
+				messageDialogOpen: true
+			});
+		}
+	};
+
+	processingPastText = (e) => {
+		const _t = this;
+
+		e.stopPropagation();
+		e.preventDefault();
+
+		const clipText = e.clipboardData.getData('Text');
+
+		if (clipText && clipText.length) {
+			_t.resetHighLightText();
+			_t.setState({
+				text: clipText
+			})
+		} else {
+			_t.setState({
+				messageDialogText: 'Failed to past text. Please try again',
 				messageDialogOpen: true
 			});
 		}
