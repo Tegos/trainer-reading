@@ -7,6 +7,12 @@ import {Slider} from 'material-ui';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
+import Download from 'material-ui/svg-icons/file/file-download';
+import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
+import IconMenu from 'material-ui/IconMenu';
+import IconButton from 'material-ui/IconButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import Divider from 'material-ui/Divider';
 
 
 import PlayCircle from 'react-mdi/icons/play-circle';
@@ -22,16 +28,18 @@ import NumberInput from 'material-ui-number-input';
 class Header extends Component {
 	handleToUpdate;
 	handleToRun;
+	handleFromMenu;
 
 	constructor(props) {
 		super();
 		this.state = {
-			activeMenu: 2,
+			activeMenu: 0,
 			sliderSpeedValue: +props.speed
 		};
 
 		this.handleToUpdate = props.handleToUpdate;
 		this.handleToRun = props.handleToRun;
+		this.handleFromMenu = props.handleFromMenu;
 
 		// event for font size input
 		this.onChangeFontSize = (event, value) => {
@@ -58,15 +66,15 @@ class Header extends Component {
 			<div>
 				<Toolbar>
 					<ToolbarGroup firstChild={true}>
-						<DropDownMenu value={this.state.activeMenu} onChange={this.handleChange}>
-							<MenuItem value={1} primaryText="All Broadcasts"/>
-							<MenuItem value={2} primaryText="All Voice"/>
-							<MenuItem value={3} primaryText="All Text"/>
-							<MenuItem value={4} primaryText="Complete Voice"/>
-							<MenuItem value={5} primaryText="Complete Text"/>
-							<MenuItem value={6} primaryText="Active Voice"/>
-							<MenuItem value={7} primaryText="Active Text"/>
-						</DropDownMenu>
+						<IconMenu
+							menuStyle={{width: 250}}
+							onChange={this.handleChangeMenu}
+							iconButtonElement={<IconButton><MoreVertIcon/></IconButton>}>
+							<MenuItem value="1" primaryText="Open file" secondaryText="Ctrl + O"/>
+							<MenuItem value="2" primaryText="Paste" secondaryText="Ctrl + V"/>
+							<Divider/>
+							<MenuItem value="3" primaryText="Reset" secondaryText="F5"/>
+						</IconMenu>
 						<ToolbarSeparator/>
 					</ToolbarGroup>
 
@@ -90,7 +98,7 @@ class Header extends Component {
 						              }
 						/>
 						<RaisedButton data-run="0" onClick={this.handleOfButtonRun}
-						              secondary={true}
+						              primary={true}
 						              icon={
 							              <PauseCircle className="button_icons"/>
 						              }
@@ -133,10 +141,11 @@ class Header extends Component {
 						</div>
 					</ToolbarGroup>
 				</Toolbar>
+
 			</div>
 
 
-		);
+		)
 	}
 
 	handleOfButtonTextAlign(event) {
@@ -161,6 +170,15 @@ class Header extends Component {
 
 		this.handleToRun(status);
 	};
+
+	handleChangeMenu = (event, value) => {
+		this.setState({
+			activeMenu: +value,
+		});
+		this.handleFromMenu(value);
+	};
+
+
 
 
 }

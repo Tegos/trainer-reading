@@ -9,6 +9,7 @@ import Header from './Header';
 
 
 class ReaderZone extends Component {
+	fileUploader;
 
 	constructor() {
 		super();
@@ -42,13 +43,16 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 			status: 0, // 0 - stop, 1 - run
 			currentPositionText: 0,
 			contextOfText: null,
-			instanceMark: null
+			instanceMark: null,
+			menuValue: 0
 		};
 
 
 		// bind events
 		this.updateDimensions = this.updateDimensions.bind(this);
 		this.handleToRun = this.handleToRun.bind(this);
+		this.handleFromMenu = this.handleFromMenu.bind(this);
+		this.handleToUpdate = this.handleToUpdate.bind(this);
 
 
 	}
@@ -60,8 +64,9 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 
 
 	render() {
-		const header = <Header handleToRun={this.handleToRun} speed={this.state.speed} fontSize={this.state.fontSize}
-		                       handleToUpdate={this.handleToUpdate.bind(this)}/>;
+		const header = <Header handleFromMenu={this.handleFromMenu} handleToRun={this.handleToRun}
+		                       speed={this.state.speed} fontSize={this.state.fontSize}
+		                       handleToUpdate={this.handleToUpdate}/>;
 
 		return (
 			<div>
@@ -88,6 +93,9 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 						</div>
 					</div>
 				</div>
+				<input type="file" id="fileUploader" ref={(input) => {
+					this.fileUploader = input;
+				}} style={{display: "none"}}/>
 			</div>
 
 		);
@@ -102,6 +110,8 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 			contextOfText,
 			instanceMark
 		});
+
+		document.getElementById('fileUploader').addEventListener('change', this.processingFileUpload, false);
 	}
 
 	updateDimensions() {
@@ -207,6 +217,68 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 			status: 0
 		})
 	};
+
+	resetHighLightText = () => {
+		if (this.state.intervalId) {
+			clearInterval(this.state.intervalId);
+		}
+		this.setState({
+			status: 0,
+			currentPositionText: 0
+
+		});
+
+		//let lengthText = this.state.text.length;
+		let instanceMark = this.state.instanceMark;
+		instanceMark.unmark();
+
+	};
+
+	handleFromMenu(menu) {
+		this.setState({
+			menuValue: menu
+		});
+
+		let method = this.getTableMenuMethods(menu);
+
+		if (method) {
+			method();
+		}
+	}
+
+
+	getTableMenuMethods(menu) {
+		let table = {
+			1: this.openFileUpload,
+			3: this.resetHighLightText
+		};
+		return table[menu];
+	}
+
+	openFileUpload = () => {
+		this.fileUploader.click();
+	};
+
+	processingFileUpload = (event) => {
+		const _t = this;
+		let f = event.target.files[0];
+		if (f) {
+			const r = new FileReader();
+			r.onload = function (e) {
+				const contents = e.target.result;
+				console.log(contents);
+				_t.resetHighLightText();
+				_t.setState({
+					text: contents
+				})
+			};
+			r.readAsText(f);
+		} else {
+			alert("Failed to load file");
+		}
+	};
+
+
 }
 
 export default ReaderZone;
