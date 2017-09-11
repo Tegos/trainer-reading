@@ -19,16 +19,6 @@ import FormatAlignJustify from 'react-mdi/icons/format-align-justify';
 import NumberInput from 'material-ui-number-input';
 
 
-let colorable = require('colorable');
-
-let colors = {
-	red: 'red',
-	green: 'green',
-	blue: 'blue'
-};
-let result = colorable(colors, {compact: true, threshold: 0});
-
-
 class Header extends Component {
 	handleToUpdate;
 	handleToRun;

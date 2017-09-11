@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import logo from './logo.svg';
 import './App.css';
-//import styled from 'styled-components';
+
 
 import {RaisedButton, Dialog, FlatButton, RadioButton, RadioButtonGroup} from 'material-ui';
 import {MuiThemeProvider} from 'material-ui/styles';
 
-
-import Slider from 'material-ui/Slider';
 import AppBar from 'material-ui/AppBar';
 
 
@@ -17,6 +14,7 @@ import 'rc-tooltip/assets/bootstrap.css';
 import ReaderZone from './components/ReaderZone';
 
 injectTapEventPlugin();
+
 
 class App extends Component {
 
@@ -29,30 +27,13 @@ class App extends Component {
 	}
 
 	render() {
-		const standardActions = (
-			<FlatButton label="Ok" primary={true} onTouchTap={this.handleRequestClose}/>
-		);
-		const standardActions0 = (
-			<FlatButton label="Ok" primary={true} onTouchTap={this.handleRequestClose}/>
-		);
 
-
-		//console.log(header);
-
-		const sliderForArea = (
-			<div style={{width: '100%'}}>
-				<Slider/>
-			</div>
-		);
-
-		const wrapperStyle = {width: 400, margin: 50};
 
 		return (
-			<MuiThemeProvider muiTheme={this.muiTheme}>
+			<MuiThemeProvider>
 				<div>
 					<AppBar title="Trainer of speed reading with marks"
 					        showMenuIconButton={false}/>
-
 
 
 					<ReaderZone/>

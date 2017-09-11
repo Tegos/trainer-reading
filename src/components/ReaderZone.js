@@ -7,15 +7,6 @@ import Mark from 'mark.js';
 
 import Header from './Header';
 
-let colorable = require('colorable');
-
-let colors = {
-	red: 'red',
-	green: 'green',
-	blue: 'blue'
-};
-let result = colorable(colors, {compact: true, threshold: 0});
-
 
 class ReaderZone extends Component {
 
@@ -78,11 +69,15 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 				<div style={{overflow: 'hidden'}}>
 					<Range allowCross={false} step={1} min={1} max={this.state.widthWindow}
 					       value={this.state.rangeValue}
+					       className="rangeSlider"
+					       railStyle={{backgroundColor: 'black'}}
+					       trackStyle={[{backgroundColor: 'rgb(0, 188, 212)'}]}
+					       handleStyle={[{backgroundColor: '#f0f0f0'}, {backgroundColor: '#f0f0f0'}]}
 					       onChange={this.onSliderChange}
 					/>
 				</div>
 				<div id={'reader_zone_wrap'}>
-					<div style={{
+					<div className="unselectable" style={{
 						marginLeft: this.state.marginLeft,
 						marginRight: this.state.widthWindow - this.state.marginRight,
 						fontSize: this.state.fontSize,
@@ -144,12 +139,7 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 		}
 	}
 
-	componentDidUpdate() {
-
-	}
-
 	onSliderChange = (value) => {
-		console.log(value);
 		this.setState({
 			marginLeft: +value[0],
 			marginRight: +value[1],

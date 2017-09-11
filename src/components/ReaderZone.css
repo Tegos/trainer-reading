@@ -2,9 +2,16 @@
 	margin-top: 6px;
 }
 
+/*
+marks colors
+#ffb7b7
+#a8d1ff
+#fff2a8
+#ffc107
+*/
 .mark {
 	padding: 0;
-	background: linear-gradient(to right, #FFC107 50%, transparent 50%) right bottom;
+	background: linear-gradient(to right, #ffc107 50%, transparent 50%) right bottom;
 	background-size: 205% 100%;
 	color: black;
 }
@@ -22,5 +29,21 @@
 }
 
 #reader_zone_wrap {
-	color: #AACCFF;
+	color: #080808;
+}
+
+.rangeSlider .rc-slider-handle {
+	border: solid 2px black;
+	outline: none !important;
+}
+
+.rangeSlider .rc-slider-handle:active {
+	box-shadow: none;
+}
+
+*.unselectable {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
