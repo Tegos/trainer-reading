@@ -4,6 +4,8 @@ import {Range} from 'rc-slider';
 import $ from 'jquery';
 import './ReaderZone.css';
 import Mark from 'mark.js';
+import Dialog from 'material-ui/Dialog';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import Header from './Header';
 
@@ -44,7 +46,9 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 			currentPositionText: 0,
 			contextOfText: null,
 			instanceMark: null,
-			menuValue: 0
+			menuValue: 0,
+			messageDialogOpen: false,
+			messageDialogText: ''
 		};
 
 
@@ -93,9 +97,16 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 						</div>
 					</div>
 				</div>
-				<input type="file" id="fileUploader" ref={(input) => {
+				<input accept="text/plain" type="file" id="fileUploader" ref={(input) => {
 					this.fileUploader = input;
-				}} style={{display: "none"}}/>
+				}} style={{display: 'none'}}/>
+				<Dialog
+					title="Error"
+					actions={<RaisedButton primary={true} onClick={this.handleCloseMessageDialog} label="Ok"/>}
+					open={this.state.messageDialogOpen}
+				>
+					{this.state.messageDialogText}
+				</Dialog>
 			</div>
 
 		);
@@ -261,9 +272,10 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 
 	processingFileUpload = (event) => {
 		const _t = this;
-		let f = event.target.files[0];
-		if (f) {
+		let file = event.target.files[0];
+		if (file && file.type.match('text.*')) {
 			const r = new FileReader();
+			console.dir(file);
 			r.onload = function (e) {
 				const contents = e.target.result;
 				console.log(contents);
@@ -272,10 +284,17 @@ Lorem ipsum and its many variants have been employed since the early 1960ies, an
 					text: contents
 				})
 			};
-			r.readAsText(f);
+			r.readAsText(file);
 		} else {
-			alert("Failed to load file");
+			_t.setState({
+				messageDialogText: 'Failed to load file. Please select correct text file',
+				messageDialogOpen: true
+			});
 		}
+	};
+
+	handleCloseMessageDialog = () => {
+		this.setState({messageDialogOpen: false});
 	};
 
 

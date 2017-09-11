@@ -4,11 +4,8 @@ import $ from 'jquery';
 
 import MenuItem from 'material-ui/MenuItem';
 import {Slider} from 'material-ui';
-import DropDownMenu from 'material-ui/DropDownMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator} from 'material-ui/Toolbar';
-import Download from 'material-ui/svg-icons/file/file-download';
-import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
@@ -177,8 +174,6 @@ class Header extends Component {
 		});
 		this.handleFromMenu(value);
 	};
-
-
 
 
 }
